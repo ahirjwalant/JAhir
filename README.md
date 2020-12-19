@@ -164,8 +164,12 @@ What is the main advantage of automating configuration with Ansible? To automate
 
 The playbook implements the following tasks:
 In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
-- 
-- ...
+1) install docker.io
+2) install python3-pip
+3) install docker module
+4) increase virtual memory
+5) use more memory
+6) download and launch a docker elk container
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
@@ -182,23 +186,25 @@ filebeats
 metricbeats
 
 These Beats allow us to collect the following information from each machine:
-- _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
 Filebeat collects log files, collect log events, system log entries
-Metricbeat collects Records metrics and statistics
+e.g. 
+Metricbeat collects Records metrics and statistics. 
+e.g. Uptime : The System uptime metricset provides the uptime of the host operating system
 
 ### Using the Playbook
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
 SSH into the control node and follow the steps below:
-- Copy the _____ file to _____.
-- Update the _____ file to include...
-- Run the playbook, and navigate to ____ to check that the installation worked as expected.
+- Copy the playbook.yml file to /etc/ansible
+- Update the host file to include the privete IP addresses of the webservers and elk
+- Run the playbook, and navigate to http://24.107.205.229:5601 to check that the installation worked as expected.
 
-_TODO: Answer the following questions to fill in the blanks:_
 Which file is the playbook? filebeat-playbook.yml, metricbeat-playbook.yml
 Where do you copy it? /etc/ansible 
 Which file do you update to make Ansible run the playbook on a specific machine? Host
-How do I specify which machine to install the ELK server on versus which to install Filebeat on? 
-Which URL do you navigate to in order to check that the ELK server is running?
+How do I specify which machine to install the ELK server on versus which to install Filebeat on? Elk is installed on the VM that would be used to monitors VMs whereas filebeat is installed in the VM that would be monitored by the ELK server. 
+Which URL do you navigate to in order to check that the ELK server is running? http://24.107.205.229:5601
 
 _As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
+ansible-platbook filebeat-playbook.yml
+ansible-platbook metricbeat-playbook.yml
